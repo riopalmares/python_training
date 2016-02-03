@@ -18,7 +18,7 @@ class test_add_group(unittest.TestCase):
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
 
-    def reuturn_to_group_page(self, wd):
+    def return_to_group_page(self, wd):
         wd.find_element_by_link_text("group page").click()
 
     def create_group(self, wd, group):
@@ -36,8 +36,10 @@ class test_add_group(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         # submint grpup creatiob
         wd.find_element_by_name("submit").click()
+        self.return_to_group_page(wd)
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -52,18 +54,14 @@ class test_add_group(unittest.TestCase):
     
     def test_add_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_group(wd, Group(name="1234567890", header="efwefw", footer="wefefew"))
-        self.reuturn_to_group_page(wd)
         self.logout(wd)
 
-    def test__add_empty_group(self):
+    def test_add_empty_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_group(wd, Group(name="", header="", footer=""))
-        self.reuturn_to_group_page(wd)
         self.logout(wd)
 
 
